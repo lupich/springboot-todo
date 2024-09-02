@@ -18,6 +18,7 @@ public class User {
   private String username;
   private String password;
   private String email;
+
   @OneToMany(cascade = CascadeType.ALL ,orphanRemoval = true)
   @JoinColumn(name = "user_id")
   private List<Task> listTasks;
