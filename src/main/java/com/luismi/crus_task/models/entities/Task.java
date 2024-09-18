@@ -19,11 +19,5 @@ public class Task {
   private String description;
   private String status;
   private String priority;
-  /*
-  @Column(name = "due_date")
-  private Date dueDate;
-  @Column(name = "created_at")
-  private Date createdAt;
-  @Column(name = "updated_at")
-  private Date updatedAt; */
+
 }

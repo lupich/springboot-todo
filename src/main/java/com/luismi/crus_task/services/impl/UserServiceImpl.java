@@ -1,9 +1,6 @@
 package com.luismi.crus_task.services.impl;
 
-import com.luismi.crus_task.mappers.TaskMapper;
 import com.luismi.crus_task.mappers.UserMapper;
-import com.luismi.crus_task.models.dto.TaskDto;
-import com.luismi.crus_task.models.dto.UserDto;
 import com.luismi.crus_task.models.dto.UserSinPassDto;
 import com.luismi.crus_task.models.entities.Task;
 import com.luismi.crus_task.models.entities.User;
@@ -15,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,8 +22,6 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private UserMapper userMapper;
 
-  @Autowired
-  private TaskMapper taskMapper;
 
   @Transactional(readOnly = true)
   @Override
@@ -44,22 +38,20 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   @Override
-  public UserSinPassDto save(UserDto userDto) {
-    User user =userMapper.toUser(userDto);
-    user=userRepository.save(user);
-    return userMapper.toUserSinPassDto(user);
+  public UserSinPassDto save(User user) {
+    return userMapper.toUserSinPassDto(userRepository.save(user));
   }
 
   @Transactional
   @Override
-  public Optional<UserSinPassDto> update(Integer id, UserDto userDto) {
+  public Optional<UserSinPassDto> update(Integer id, User user) {
 
     Optional<User> userId=userRepository.findById(id);
 
     if(userId.isPresent()){
       User userDb=userId.orElseThrow()  ;
-      userDb.setPassword(userDto.getEmail());
-      userDb.setEmail(userDto.getPassward());
+      userDb.setPassword(user.getEmail());
+      userDb.setEmail(user.getPassword());
       userDb=userRepository.save(userDb);
       return Optional.ofNullable(userMapper.toUserSinPassDto(userDb));
     }
@@ -76,11 +68,10 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Optional<UserSinPassDto> assignToTask(TaskDto taskDto, Integer id) {
+  public Optional<UserSinPassDto> assignToTask(Task task, Integer id) {
     Optional <User> user=userRepository.findById(id);
     if(user.isPresent()){
       User userDb=user.orElseThrow();
-      Task task =taskMapper.toTask(taskDto);
       userDb.getListTasks().add(task);
       userDb=userRepository.save(userDb);
       return Optional.ofNullable(userMapper.toUserSinPassDto(userDb));

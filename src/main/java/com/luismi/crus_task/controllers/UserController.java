@@ -1,9 +1,6 @@
 package com.luismi.crus_task.controllers;
-import com.luismi.crus_task.mappers.UserMapper;
-import com.luismi.crus_task.models.dto.UserDto;
 import com.luismi.crus_task.models.dto.UserSinPassDto;
 import com.luismi.crus_task.models.entities.User;
-import com.luismi.crus_task.repositories.UserRepository;
 import com.luismi.crus_task.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -39,15 +35,15 @@ public class UserController {
   }
 
   @PostMapping("/user")
-  public ResponseEntity<UserSinPassDto> createUser(@RequestBody UserDto userDto){
-    UserSinPassDto userSinPassDto= userService.save(userDto);
+  public ResponseEntity<UserSinPassDto> createUser(@RequestBody User user){
+    UserSinPassDto userSinPassDto= userService.save(user);
     return ResponseEntity.ok().body(userSinPassDto);
   }
 
   @PutMapping("/user/{id}")
-  public ResponseEntity<?> update(@PathVariable Integer id ,@RequestBody UserDto userDto){
-    Optional<UserSinPassDto> user=userService.update(id,userDto);
-    if(user.isPresent()){
+  public ResponseEntity<?> update(@PathVariable Integer id ,@RequestBody User user){
+    Optional<UserSinPassDto> userOptional=userService.update(id,user);
+    if(userOptional.isPresent()){
       return ResponseEntity.ok().body(user);
     }
     return ResponseEntity.notFound().build();

@@ -1,5 +1,6 @@
 package com.luismi.crus_task.models.dto;
 
+import com.luismi.crus_task.models.entities.Task;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,5 +12,5 @@ public class UserSinPassDto {
   private  Integer id;
   private String username;
   private String email;
-  private List<TaskDto> listTasks;
+  private List<Task> listTasks;
 }

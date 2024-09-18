@@ -1,7 +1,5 @@
 package com.luismi.crus_task.services.impl;
 
-import com.luismi.crus_task.mappers.TaskMapper;
-import com.luismi.crus_task.models.dto.TaskDto;
 import com.luismi.crus_task.models.entities.Task;
 import com.luismi.crus_task.repositories.TaskRepository;
 import com.luismi.crus_task.services.TaskService;
@@ -12,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -20,22 +17,16 @@ public class TaskServiceImpl implements TaskService {
   @Autowired
   private TaskRepository taskRepository;
 
-  @Autowired
-  private TaskMapper taskMapper;
 
   @Transactional(readOnly = true)
   @Override
-  public List<TaskDto> findAll() {
-    List<Task> listTask= (List<Task>) taskRepository.findAll();
-    return listTask.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+  public List<Task> findAll() {
+    return (List<Task>) taskRepository.findAll();
   }
-
   @Transactional(readOnly = true)
   @Override
-  public Optional<TaskDto> findId(Integer id) {
-    Optional<Task> taskId=taskRepository.findById(id);
-
-    return taskId.map(taskMapper::toTaskDto);
+  public Optional<Task> findId(Integer id) {
+    return taskRepository.findById(id);
   }
   /*
   @Transactional
@@ -48,16 +39,16 @@ public class TaskServiceImpl implements TaskService {
 
   @Transactional
   @Override
-  public Optional<TaskDto> update(Integer id, TaskDto taskDto) {
+  public Optional<Task> update(Integer id, Task task) {
     Optional<Task> taskId=taskRepository.findById(id);
     if(taskId.isPresent()){
       Task taskDb=taskId.orElseThrow();
-      taskDb.setTitle(taskDto.getTitle());
-      taskDb.setDescription(taskDto.getDescription());
-      taskDb.setStatus(taskDto.getStatus());
-      taskDb.setPriority(taskDto.getPriority());
+      taskDb.setTitle(task.getTitle());
+      taskDb.setDescription(task.getDescription());
+      taskDb.setStatus(task.getStatus());
+      taskDb.setPriority(task.getPriority());
       taskDb= taskRepository.save(taskDb);
-      return Optional.of(taskMapper.toTaskDto(taskDb));
+      return Optional.of(taskDb);
     }
     return Optional.empty();
   }

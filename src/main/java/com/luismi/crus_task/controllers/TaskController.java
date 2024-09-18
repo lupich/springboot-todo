@@ -1,15 +1,10 @@
 package com.luismi.crus_task.controllers;
 
-import com.luismi.crus_task.models.dto.TaskDto;
 import com.luismi.crus_task.models.entities.Task;
-import com.luismi.crus_task.models.entities.User;
 import com.luismi.crus_task.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +16,7 @@ public class TaskController {
 
   @GetMapping("/task")
   public ResponseEntity<?> listTask(){
-    List<TaskDto> listTask=taskService.findAll();
+    List<Task> listTask=taskService.findAll();
     if (listTask.isEmpty()){
       return ResponseEntity.notFound().build();
     }
@@ -30,7 +25,7 @@ public class TaskController {
 
  @GetMapping("/task/{id}")
   public ResponseEntity<?> findById(@PathVariable Integer id){
-   Optional<TaskDto> taskDto=taskService.findId(id);
+   Optional<Task> taskDto=taskService.findId(id);
     if(taskDto.isPresent()){
       return ResponseEntity.ok().body(taskDto);
     }
@@ -38,8 +33,8 @@ public class TaskController {
   }
 
   @PutMapping("/task/{id}")
-  public ResponseEntity<?> update(@PathVariable Integer id,@RequestBody TaskDto taskDto){
-    Optional<TaskDto> taskDtoOptional=taskService.update(id,taskDto);
+  public ResponseEntity<?> update(@PathVariable Integer id,@RequestBody Task task){
+    Optional<Task> taskDtoOptional=taskService.update(id,task);
     if(taskDtoOptional.isPresent()){
       //return ResponseEntity.status(HttpStatus.CREATED).body(taskDtoOptional);
       return ResponseEntity.ok().body(taskDtoOptional);
