@@ -15,8 +15,4 @@ public interface UserMapper {
   User toUser(UserSinPassDto userSinPassDto);
 
 
-
-
-
-
 }

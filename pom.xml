@@ -6,31 +6,20 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.luismi</groupId>
 	<artifactId>crud-task</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>crus-task</name>
 	<description>lista de tareas</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+
 	<properties>
 		<java.version>17</java.version>
 		<org.mapstruct.version>1.6.0</org.mapstruct.version>
-		<lombok.version>1.18.34</lombok.version> <!-- Agregada la versión de Lombok -->
+		<lombok.version>1.18.34</lombok.version>
 	</properties>
+
 	<dependencies>
 
 		<dependency>
@@ -64,8 +53,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version> <!-- Especificada la versión -->
-			<optional>true</optional>
+			<version>${lombok.version}</version>
+			<!-- Elimina <optional>true</optional> -->
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -77,6 +66,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -111,7 +106,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version> <!-- Especificada la versión -->
+							<version>${lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
